@@ -13,14 +13,19 @@ export declare enum HttpMethod {
     OPTIONS = "OPTIONS",
     TRACE = "TRACE"
 }
+export type StringValue = {
+    name: string;
+    value: string;
+};
 export type RequestStatementConfig<D = any> = {
     path: string;
     method: HttpMethod;
-    config: AxiosRequestConfig<D>;
+    config?: AxiosRequestConfig<D>;
 };
 export declare class RequestStatement {
     private axios;
     private config;
+    private axiosResponse?;
     constructor(axios: Axios, config: RequestStatementConfig);
     bodyAsEmpty(): Promise<Response.Empty>;
     bodyAsObject<T>(ctor: (o: any) => T): Promise<Response.Object<T>>;

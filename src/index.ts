@@ -20,15 +20,21 @@ export enum HttpMethod {
     TRACE = 'TRACE'
 }
 
+export type StringValue = {
+    name: string
+    value: string
+}
+
 export type RequestStatementConfig<D = any> = {
     path: string
     method: HttpMethod
-    config: AxiosRequestConfig<D>
+    config?: AxiosRequestConfig<D>
 }
 
 export class RequestStatement {
     private axios: Axios
     private config: RequestStatementConfig
+    private axiosResponse?: AxiosResponse<any, any>
 
     constructor(axios: Axios, config: RequestStatementConfig) {
         this.axios = axios

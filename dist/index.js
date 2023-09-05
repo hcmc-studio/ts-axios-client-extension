@@ -17,6 +17,7 @@ export var HttpMethod;
 export class RequestStatement {
     axios;
     config;
+    axiosResponse;
     constructor(axios, config) {
         this.axios = axios;
         this.config = config;
