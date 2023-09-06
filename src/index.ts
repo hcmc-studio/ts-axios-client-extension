@@ -1,4 +1,4 @@
-import {Axios, AxiosRequestConfig, AxiosResponse} from "axios";
+import {Axios, AxiosError, AxiosRequestConfig, AxiosResponse} from "axios";
 import {Response} from "ts-protocol-extension";
 
 type AxiosRequestMethod = {
@@ -103,7 +103,15 @@ export class RequestStatement {
     }
 
     private async call(): Promise<AxiosResponse<any, any>> {
-        return await this.method()(this.config.path, this.config.config)
+        try {
+            return await this.method()(this.config.path, this.config.config)
+        } catch (e: any) {
+            if (e instanceof AxiosError && e.response !== undefined) {
+                this.raiseError(e.response)
+            } else {
+                throw e
+            }
+        }
     }
 
     private raiseError(axiosResponse: AxiosResponse<any, any>): never {

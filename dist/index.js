@@ -1,4 +1,4 @@
-import { Axios } from "axios";
+import { Axios, AxiosError } from "axios";
 import { Response } from "ts-protocol-extension";
 /**
  * org.springframework.http.HttpMethod
@@ -83,7 +83,17 @@ export class RequestStatement {
         }
     }
     async call() {
-        return await this.method()(this.config.path, this.config.config);
+        try {
+            return await this.method()(this.config.path, this.config.config);
+        }
+        catch (e) {
+            if (e instanceof AxiosError && e.response !== undefined) {
+                this.raiseError(e.response);
+            }
+            else {
+                throw e;
+            }
+        }
     }
     raiseError(axiosResponse) {
         // noinspection UnnecessaryLocalVariableJS
