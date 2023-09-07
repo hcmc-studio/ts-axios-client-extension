@@ -104,7 +104,16 @@ export class RequestStatement {
 
     private async call(): Promise<AxiosResponse<any, any>> {
         try {
-            return await this.method()(this.config.path, this.config.config)
+            switch (this.config.method) {
+                case HttpMethod.GET: return await this.axios.get(this.config.path, this.config.config)
+                case HttpMethod.HEAD: return await this.axios.head(this.config.path, this.config.config)
+                case HttpMethod.POST: return await this.axios.post(this.config.path, this.config.config?.data, this.config.config)
+                case HttpMethod.PUT: return await this.axios.put(this.config.path, this.config.config?.data, this.config.config)
+                case HttpMethod.PATCH: return await this.axios.patch(this.config.path, this.config.config?.data, this.config.config)
+                case HttpMethod.DELETE: return await this.axios.delete(this.config.path, this.config.config)
+                case HttpMethod.OPTIONS: return await this.axios.options(this.config.path, this.config.config)
+                case HttpMethod.TRACE: throw new Error('Unsupported method: TRACE')
+            }
         } catch (e: any) {
             if (e instanceof AxiosError && e.response !== undefined) {
                 this.raiseError(e.response)
