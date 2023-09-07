@@ -89,19 +89,6 @@ export class RequestStatement {
         }
     }
 
-    private method(): AxiosRequestMethod {
-        switch (this.config.method) {
-            case HttpMethod.GET: return this.axios.get
-            case HttpMethod.HEAD: return this.axios.head
-            case HttpMethod.POST: return this.axios.post
-            case HttpMethod.PUT: return this.axios.put
-            case HttpMethod.PATCH: return this.axios.patch
-            case HttpMethod.DELETE: return this.axios.delete
-            case HttpMethod.OPTIONS: return this.axios.options
-            case HttpMethod.TRACE: throw new Error('Unsupported method: TRACE')
-        }
-    }
-
     private async call(): Promise<AxiosResponse<any, any>> {
         try {
             switch (this.config.method) {

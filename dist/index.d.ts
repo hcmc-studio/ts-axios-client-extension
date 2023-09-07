@@ -30,7 +30,6 @@ export declare class RequestStatement {
     bodyAsEmpty(): Promise<Response.Empty>;
     bodyAsObject<T>(ctor: (o: any) => T): Promise<Response.Object<T>>;
     bodyAsArray<T>(ctor: (o: any) => T): Promise<Response.Array<T>>;
-    private method;
     private call;
     private raiseError;
 }
