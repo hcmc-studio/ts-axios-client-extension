@@ -110,6 +110,35 @@ export class RequestStatement {
         throw error;
     }
 }
+export var AxiosInterceptors;
+(function (AxiosInterceptors) {
+    function convertBigIntToString(request) {
+        _convertBigIntToString(request.data);
+        return request;
+    }
+    AxiosInterceptors.convertBigIntToString = convertBigIntToString;
+})(AxiosInterceptors || (AxiosInterceptors = {}));
 Axios.prototype.prepare = function (config) {
     return new RequestStatement(this, config);
 };
+function _convertBigIntToString(o) {
+    if (o === undefined || o === null) {
+        return;
+    }
+    if (Array.isArray(o)) {
+        for (const element of o) {
+            _convertBigIntToString(element);
+        }
+    }
+    else if (typeof o === 'object') {
+        for (const key of Object.keys(o)) {
+            const value = o[key];
+            if (typeof value === 'bigint') {
+                o[key] = value.toString();
+            }
+            else if (typeof value === 'object') {
+                _convertBigIntToString(value);
+            }
+        }
+    }
+}

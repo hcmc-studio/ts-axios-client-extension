@@ -1,4 +1,4 @@
-import {Axios, AxiosError, AxiosRequestConfig, AxiosResponse} from "axios";
+import {Axios, AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {Response} from "ts-protocol-extension";
 
 type AxiosRequestMethod = {
@@ -131,6 +131,14 @@ export class RequestStatement {
     }
 }
 
+export namespace AxiosInterceptors {
+    export function convertBigIntToString<D>(request: InternalAxiosRequestConfig<D>): InternalAxiosRequestConfig<D> {
+        _convertBigIntToString(request.data)
+
+        return request
+    }
+}
+
 declare module "axios" {
     interface Axios {
         prepare(config: RequestStatementConfig): RequestStatement
@@ -139,4 +147,24 @@ declare module "axios" {
 
 Axios.prototype.prepare = function (config: RequestStatementConfig): RequestStatement {
     return new RequestStatement(this, config)
+}
+
+function _convertBigIntToString(o: any | null | undefined) {
+    if (o === undefined || o === null) {
+        return
+    }
+    if (Array.isArray(o)) {
+        for (const element of o) {
+            _convertBigIntToString(element)
+        }
+    } else if (typeof o === 'object') {
+        for (const key of Object.keys(o)) {
+            const value = o[key]
+            if (typeof value === 'bigint') {
+                o[key] = value.toString()
+            } else if (typeof value === 'object') {
+                _convertBigIntToString(value)
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-import { Axios, AxiosRequestConfig } from "axios";
+import { Axios, AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 import { Response } from "ts-protocol-extension";
 /**
  * org.springframework.http.HttpMethod
@@ -33,6 +33,9 @@ export declare class RequestStatement {
     private method;
     private call;
     private raiseError;
+}
+export declare namespace AxiosInterceptors {
+    function convertBigIntToString<D>(request: InternalAxiosRequestConfig<D>): InternalAxiosRequestConfig<D>;
 }
 declare module "axios" {
     interface Axios {
