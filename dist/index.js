@@ -17,7 +17,6 @@ export var HttpMethod;
 export class RequestStatement {
     axios;
     config;
-    axiosResponse;
     constructor(axios, config) {
         this.axios = axios;
         this.config = config;
@@ -100,9 +99,9 @@ export class RequestStatement {
                 acceptedAt: new Date(axiosResponse.data.metadata.acceptedAt),
                 respondedAt: new Date(axiosResponse.data.metadata.respondedAt)
             },
-            result: String(axiosResponse.data.result),
-            className: String(axiosResponse.data.className),
-            status: Number(axiosResponse.data.status)
+            result: axiosResponse.data.result,
+            className: axiosResponse.data.className,
+            status: axiosResponse.data.status
         };
         throw error;
     }

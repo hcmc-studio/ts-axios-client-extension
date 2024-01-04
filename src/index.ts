@@ -34,7 +34,6 @@ export type RequestStatementConfig<D = any> = {
 export class RequestStatement {
     private axios: Axios
     private config: RequestStatementConfig
-    private axiosResponse?: AxiosResponse<any, any>
 
     constructor(axios: Axios, config: RequestStatementConfig) {
         this.axios = axios
@@ -118,9 +117,9 @@ export class RequestStatement {
                 acceptedAt: new Date(axiosResponse.data.metadata.acceptedAt),
                 respondedAt: new Date(axiosResponse.data.metadata.respondedAt)
             },
-            result: String(axiosResponse.data.result),
-            className: String(axiosResponse.data.className),
-            status: Number(axiosResponse.data.status)
+            result: axiosResponse.data.result,
+            className: axiosResponse.data.className,
+            status: axiosResponse.data.status
         }
 
         throw error

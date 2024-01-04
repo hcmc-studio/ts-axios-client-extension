@@ -1,19 +1,19 @@
 {
   "name": "ts-axios-client-extension",
-  "version": "0.0.55",
-  "hcmcExtensionVersion": "0.0.54",
+  "version": "0.0.68",
+  "hcmcExtensionVersion": "0.0.67",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.json",
-    "push": "npm install && npm run build && ../bin/push 0.0.55 ts-axios-client-extension"
+    "push": "npm install && npm run build && ../../bin/push 0.0.68 ts ts-axios-client-extension"
   },
   "license": "MIT",
   "devDependencies": {
-    "axios": "^1.5.0",
-    "ts-protocol-extension": "github:hcmc-studio/ts-protocol-extension#0.0.54",
+    "axios": "^1.6.4",
+    "ts-protocol-extension": "github:hcmc-studio/ts-protocol-extension#0.0.67",
     "typescript": "^5.2.2"
   }
 }
